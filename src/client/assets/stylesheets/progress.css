@@ -2,7 +2,8 @@
 
 /* -------------------  MOBILE  --------------------- */
 header {
-  background-image: url('https://via.placeholder.com/1150');
+  /*** bg image by Sean Foley (@_stfeyes) | Unsplash Photo Community ***/
+  background-image: url('/assets/images/cyberpunk-bg-unsplash.jpg');
 }
 
 main#two-columns {
