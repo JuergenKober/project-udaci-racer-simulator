@@ -21,6 +21,7 @@ body {
 }
 
 header {
+  /*** bg image by Sean Foley (@_stfeyes) | Unsplash Photo Community ***/
   background-image: url('/assets/images/cyberpunk-bg-unsplash.jpg');
   background-size: cover;
   background-repeat: no-repeat;
