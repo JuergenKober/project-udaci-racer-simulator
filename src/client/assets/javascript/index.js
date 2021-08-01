@@ -39,11 +39,13 @@ function setupClickHandlers() {
     console.log('target: ', target);
 		// Race track form field
 		if (target.matches('.card.track')) {
+			console.log("target.matches('.card.track')");
 			handleSelectTrack(target)
 		}
 
 		// Podracer form field
 		if (target.matches('.card.podracer')) {
+			console.log("target.matches('.card.podracer')");
 			handleSelectPodRacer(target)
 		}
 
@@ -78,8 +80,9 @@ async function handleCreateRace() {
 	// render starting UI
 	renderAt('#race', renderRaceStartView());
 
+	console.log('YOU ARE HERE: handleCreateRace');
+
 	// TODO - Get player_id and track_id from the store
-  console.log('YOU ARE HERE: handleCreateRace');
 
 	// const race = TODO - invoke the API call to create the race, then save the result
 
@@ -147,7 +150,7 @@ function handleSelectPodRacer(target) {
 	target.classList.add('selected')
 
 	// TODO - save the selected racer to the store
-	
+
 }
 
 function handleSelectTrack(target) {
