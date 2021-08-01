@@ -184,12 +184,13 @@ function renderRacerCars(racers) {
 
 	return `
 		<ul id="racers">
-			${reuslts}
+			${results}
 		</ul>
 	`
 }
 
 function renderRacerCard(racer) {
+	console.log(racer);
 	const { id, driver_name, top_speed, acceleration, handling } = racer
 
 	return `
