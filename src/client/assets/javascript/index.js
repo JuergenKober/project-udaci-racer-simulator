@@ -94,7 +94,8 @@ async function handleCreateRace() {
     console.log('race ', race);
 
 		// TODO - update the store with the race id
-		store = { ...store, race_id: parseInt(race.ID)};
+		// fix from https://knowledge.udacity.com/questions/337407
+		store = { ...store, race_id: parseInt(race.ID - 1)};
     console.log(store);
 
 		// render starting UI
@@ -114,7 +115,7 @@ async function handleCreateRace() {
 		await startRace(race_id);
 
 		// TODO - call the async function runRace
-		await runRace(race_id);
+		//await runRace(race_id);
 
 
 	} catch(err) {
@@ -133,7 +134,13 @@ function runRace(raceID) {
 			renderAt('#leaderBoard', raceProgress(res.positions))
 		*/
 		const race = await getRace(raceID);
-		console.log(race);
+
+		if(race.status === "in-progress") {
+      console.log(race);
+		}
+    if(race.status === "finished") {
+      clearInterval(raceInterval);
+		}
 	}, 500);
 
 
