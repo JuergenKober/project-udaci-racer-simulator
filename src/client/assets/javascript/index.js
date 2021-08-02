@@ -115,7 +115,7 @@ async function handleCreateRace() {
 		await startRace(race_id);
 
 		// TODO - call the async function runRace
-		//await runRace(race_id);
+		await runRace(race_id);
 
 
 	} catch(err) {
@@ -127,36 +127,36 @@ async function handleCreateRace() {
 
 function runRace(raceID) {
 	return new Promise(resolve => {
-	// TODO - use Javascript's built in setInterval method to get race info every 500ms
-  const raceInterval = setInterval(async () => {
+	  // TODO - use Javascript's built in setInterval method to get race info every 500ms
+    const raceInterval = setInterval(async () => {
 		/*
 			TODO - if the race info status property is "in-progress", update the leaderboard by calling:
 			renderAt('#leaderBoard', raceProgress(res.positions))
-		*/
-		const race = await getRace(raceID);
+	  */
+			const race = await getRace(raceID);
 
-		if(race.status === "in-progress") {
-      console.log(race);
-		}
-    if(race.status === "finished") {
-      clearInterval(raceInterval);
-		}
-	}, 500);
-
-
-	/*
-		TODO - if the race info status property is "finished", run the following:
-
-		clearInterval(raceInterval) // to stop the interval from repeating
-		renderAt('#race', resultsView(res.positions)) // to render the results view
-		reslove(res) // resolve the promise
-	*/
+			if(race.status === "in-progress") {
+	      console.log(race);
+				renderAt('#leaderBoard', raceProgress(race.positions));
+			}
+			/*
+				TODO - if the race info status property is "finished", run the following:
+				clearInterval(raceInterval) // to stop the interval from repeating
+				renderAt('#race', resultsView(res.positions)) // to render the results view
+				reslove(res) // resolve the promise
+			*/
+      if(race.status === "finished") {
+        clearInterval(raceInterval);
+				renderAt('#race', resultsView(race.positions));
+				resolve(race);
+		  }
+	  }, 500);
 	// remember to add error handling for the Promise
-}).catch((err) => {
-		console.log(`An error occured in handleCreateRace: ${err.message}`);
-		// print full error to console
-		console.error(err);
-  });
+	}).catch((err) => {
+			console.log(`An error occured in handleCreateRace: ${err.message}`);
+			// print full error to console
+			console.error(err);
+	});
 }
 
 async function runCountdown() {
@@ -435,7 +435,6 @@ function startRace(id) {
 		method: 'POST',
 		...defaultFetchOpts(),
 	})
-	.then(res => res.json())
 	.catch(err => console.log("Problem with startRace request::", err))
 }
 
