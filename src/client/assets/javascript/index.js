@@ -90,11 +90,20 @@ async function handleCreateRace() {
 		console.log(`handleCreateRace track_id: ${track_id}`)
 
 		// const race = TODO - invoke the API call to create the race, then save the result
-		// render starting UI
-		renderAt('#race', renderRaceStartView());
-
+    const race = await createRace(player_id, track_id);
+    console.log('race ', race);
 
 		// TODO - update the store with the race id
+		store = { ...store, race_id: parseInt(race.ID)};
+    console.log(store);
+
+		// render starting UI
+		// renderRaceStartView is called with track and racers
+		// track === race.Track
+		// racers === race.Cars
+		renderAt('#race', renderRaceStartView(race.Track, race.Cars));
+
+
 
 		// The race has been created, now start the countdown
 		// TODO - call the async function runCountdown
@@ -163,7 +172,7 @@ function handleSelectPodRacer(target) {
 	target.classList.add('selected')
 
 	// TODO - save the selected racer to the store
-  store.player_id = parseInt(target.id);
+	store = { ...store, player_id: parseInt(target.id)};
 	console.log(store);
 }
 
@@ -183,6 +192,7 @@ function handleSelectTrack(target) {
 	store = { ...store, track_id: parseInt(target.id)};
 	console.log('console.log from handleSelectTrack', store);
 }
+
 
 function handleAccelerate() {
 	console.log("accelerate button clicked")
