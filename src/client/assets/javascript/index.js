@@ -46,11 +46,12 @@ function setupClickHandlers() {
 		// Podracer form field
 		if (target.matches('.card.podracer')) {
 			console.log("target.matches('.card.podracer')");
-			handleSelectPodRacer(target)
+			handleSelectPodRacer(target);
 		}
 
 		// Submit create race form
 		if (target.matches('#submit-create-race')) {
+			console.log("target.matches('#submit-create-race')")
 			event.preventDefault()
 
 			// start race
@@ -77,23 +78,35 @@ async function delay(ms) {
 
 // This async function controls the flow of the race, add the logic and error handling
 async function handleCreateRace() {
-	// render starting UI
-	renderAt('#race', renderRaceStartView());
+	try {
 
-	console.log('YOU ARE HERE: handleCreateRace');
+		console.log('YOU ARE HERE: handleCreateRace');
 
-	// TODO - Get player_id and track_id from the store
+		// TODO - Get player_id and track_id from the store
+	  const player_id = store.player_id;
+		const track_id = store.track_id;
 
-	// const race = TODO - invoke the API call to create the race, then save the result
+		console.log(`handleCreateRace player_id: ${player_id}`)
+		console.log(`handleCreateRace track_id: ${track_id}`)
 
-	// TODO - update the store with the race id
+		// const race = TODO - invoke the API call to create the race, then save the result
+		// render starting UI
+		renderAt('#race', renderRaceStartView());
 
-	// The race has been created, now start the countdown
-	// TODO - call the async function runCountdown
 
-	// TODO - call the async function startRace
+		// TODO - update the store with the race id
 
-	// TODO - call the async function runRace
+		// The race has been created, now start the countdown
+		// TODO - call the async function runCountdown
+
+		// TODO - call the async function startRace
+
+		// TODO - call the async function runRace
+	} catch(err) {
+		console.log(`An error occured in handleCreateRace: ${err.message}`);
+		// print full error to console
+		console.error(err);
+	}
 }
 
 function runRace(raceID) {
@@ -150,7 +163,8 @@ function handleSelectPodRacer(target) {
 	target.classList.add('selected')
 
 	// TODO - save the selected racer to the store
-
+  store.player_id = parseInt(target.id);
+	console.log(store);
 }
 
 function handleSelectTrack(target) {
@@ -166,7 +180,8 @@ function handleSelectTrack(target) {
 	target.classList.add('selected')
 
 	// TODO - save the selected track id to the store
-  store.track_id = parseInt(target.id);
+	store = { ...store, track_id: parseInt(target.id)};
+	console.log('console.log from handleSelectTrack', store);
 }
 
 function handleAccelerate() {
