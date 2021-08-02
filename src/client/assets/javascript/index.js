@@ -108,8 +108,13 @@ async function handleCreateRace() {
     await runCountdown();
 
 		// TODO - call the async function startRace
+    // startRace is called with the id of the racer
+	  // race_id === store.race_id
+		await startRace(store.race_id);
 
 		// TODO - call the async function runRace
+
+		
 	} catch(err) {
 		console.log(`An error occured in handleCreateRace: ${err.message}`);
 		// print full error to console
