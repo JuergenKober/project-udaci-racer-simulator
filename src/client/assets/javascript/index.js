@@ -33,25 +33,25 @@ async function onPageLoad() {
 }
 
 function setupClickHandlers() {
-	console.log('YOU ARE HERE: setupClickHandlers');
+	//console.log('YOU ARE HERE: setupClickHandlers');
 	document.addEventListener('click', function(event) {
 		const { target } = event
     //console.log('target: ', target);
 		// Race track form field
 		if (target.matches('.card.track')) {
-			console.log("target.matches('.card.track')");
+			//console.log("target.matches('.card.track')");
 			handleSelectTrack(target)
 		}
 
 		// Podracer form field
 		if (target.matches('.card.podracer')) {
-			console.log("target.matches('.card.podracer')");
+			//console.log("target.matches('.card.podracer')");
 			handleSelectPodRacer(target);
 		}
 
 		// Submit create race form
 		if (target.matches('#submit-create-race')) {
-			console.log("target.matches('#submit-create-race')")
+			//console.log("target.matches('#submit-create-race')")
 			event.preventDefault()
 
 			// start race
@@ -80,23 +80,23 @@ async function delay(ms) {
 async function handleCreateRace() {
 	try {
 
-		console.log('YOU ARE HERE: handleCreateRace');
+		//console.log('YOU ARE HERE: handleCreateRace');
 
 		// TODO - Get player_id and track_id from the store
 	  const player_id = store.player_id;
 		const track_id = store.track_id;
 
-		console.log(`handleCreateRace player_id: ${player_id}`)
-		console.log(`handleCreateRace track_id: ${track_id}`)
+		//console.log(`handleCreateRace player_id: ${player_id}`)
+		//console.log(`handleCreateRace track_id: ${track_id}`)
 
 		// const race = TODO - invoke the API call to create the race, then save the result
     const race = await createRace(player_id, track_id);
-    console.log('race ', race);
+    //console.log('race ', race);
 
 		// TODO - update the store with the race id
 		// fix from https://knowledge.udacity.com/questions/337407
 		store = { ...store, race_id: parseInt(race.ID - 1)};
-    console.log(store);
+    //console.log(store);
 
 		// render starting UI
 		// renderRaceStartView is called with track and racers
@@ -183,7 +183,7 @@ async function runCountdown() {
 }
 
 function handleSelectPodRacer(target) {
-	console.log("selected a pod", target.id)
+	//console.log("selected a pod", target.id)
 
 	// remove class selected from all racer options
 	const selected = document.querySelector('#racers .selected')
@@ -196,11 +196,11 @@ function handleSelectPodRacer(target) {
 
 	// TODO - save the selected racer to the store
 	store = { ...store, player_id: parseInt(target.id)};
-	console.log(store);
+	//console.log(store);
 }
 
 function handleSelectTrack(target) {
-	console.log("selected a track", target.id)
+	//console.log("selected a track", target.id)
 
 	// remove class selected from all track options
 	const selected = document.querySelector('#tracks .selected')
@@ -213,7 +213,7 @@ function handleSelectTrack(target) {
 
 	// TODO - save the selected track id to the store
 	store = { ...store, track_id: parseInt(target.id)};
-	console.log('console.log from handleSelectTrack', store);
+	//console.log('console.log from handleSelectTrack', store);
 }
 
 
