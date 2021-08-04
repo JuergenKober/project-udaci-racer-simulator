@@ -1,4 +1,8 @@
-# Welcome to the One and only UdaciRacer Simulation Game
+# Asynchronous Programming with JavaScript
+
+## Part of the Intermediate Javascript Nanodegree from Udacity
+
+## Student Instructions for the UdaciRacer Simulation Game
 
 ## Project Introduction
 
@@ -42,7 +46,7 @@ Note that this process will use your terminal tab, so you will have to open a ne
 
 #### WINDOWS USERS -- Setting Environment Variables
 If you are using a windows machine:
-1. `cd` into the root of the project containing data.json 
+1. `cd` into the root of the project containing data.json
 2. Run the following command to add the environment variable:
 ```set DATA_FILE=./data.json```
 
