@@ -33,25 +33,20 @@ async function onPageLoad() {
 }
 
 function setupClickHandlers() {
-	//console.log('YOU ARE HERE: setupClickHandlers');
 	document.addEventListener('click', function(event) {
 		const { target } = event
-    //console.log('target: ', target);
 		// Race track form field
 		if (target.matches('.card.track')) {
-			//console.log("target.matches('.card.track')");
 			handleSelectTrack(target)
 		}
 
 		// Podracer form field
 		if (target.matches('.card.podracer')) {
-			//console.log("target.matches('.card.podracer')");
 			handleSelectPodRacer(target);
 		}
 
 		// Submit create race form
 		if (target.matches('#submit-create-race')) {
-			//console.log("target.matches('#submit-create-race')")
 			event.preventDefault()
 
 			// start race
@@ -80,23 +75,13 @@ async function delay(ms) {
 async function handleCreateRace() {
 	try {
 
-		//console.log('YOU ARE HERE: handleCreateRace');
-
-		// TODO - Get player_id and track_id from the store
 	  const player_id = store.player_id;
 		const track_id = store.track_id;
 
-		//console.log(`handleCreateRace player_id: ${player_id}`)
-		//console.log(`handleCreateRace track_id: ${track_id}`)
-
-		// const race = TODO - invoke the API call to create the race, then save the result
     const race = await createRace(player_id, track_id);
-    //console.log('race ', race);
 
-		// TODO - update the store with the race id
 		// fix from https://knowledge.udacity.com/questions/337407
 		store = { ...store, race_id: parseInt(race.ID - 1)};
-    //console.log(store);
 
 		// render starting UI
 		// renderRaceStartView is called with track and racers
@@ -105,18 +90,14 @@ async function handleCreateRace() {
 		renderAt('#race', renderRaceStartView(race.Track, race.Cars));
 
 		// The race has been created, now start the countdown
-		// TODO - call the async function runCountdown
     await runCountdown();
 
-		// TODO - call the async function startRace
     // startRace is called with the id of the racer
 	  // race_id === store.race_id
 		const race_id = store.race_id;
 		await startRace(race_id);
 
-		// TODO - call the async function runRace
 		await runRace(race_id);
-
 
 	} catch(err) {
 		console.log(`An error occured in handleCreateRace: ${err.message}`);
@@ -127,31 +108,22 @@ async function handleCreateRace() {
 
 function runRace(raceID) {
 	return new Promise(resolve => {
-	  // TODO - use Javascript's built in setInterval method to get race info every 500ms
+
 		const raceInterval = setInterval(async () => {
-		/*
-			TODO - if the race info status property is "in-progress", update the leaderboard by calling:
-			renderAt('#leaderBoard', raceProgress(res.positions))
-	  */
+
 			const race = await getRace(raceID);
 
 			if(race.status === "in-progress") {
-	      //console.log(`RACE STATUS: ${race.status}`);
+
 				renderAt('#leaderBoard', raceProgress(race.positions));
 			}
-			/*
-				TODO - if the race info status property is "finished", run the following:
-				clearInterval(raceInterval) // to stop the interval from repeating
-				renderAt('#race', resultsView(res.positions)) // to render the results view
-				reslove(res) // resolve the promise
-			*/
+
       if(race.status === "finished") {
         clearInterval(raceInterval);
 				renderAt('#race', resultsView(race.positions));
 				resolve(race);
 		  }
 	  }, 500);
-	// remember to add error handling for the Promise
 	}).catch((err) => {
 			console.log(`An error occured in handleCreateRace: ${err.message}`);
 			// print full error to console
@@ -166,11 +138,10 @@ async function runCountdown() {
 		let timer = 3
 
 		return new Promise(resolve => {
-			// TODO - use Javascript's built in setInterval method to count down once per second
 			const countdownInterval = setInterval(function () {
 			  // run this DOM manipulation to decrement the countdown for the user
 				document.getElementById("big-numbers").innerHTML = --timer;
-			  // TODO - if the countdown is done, clear the interval, resolve the promise, and return
+
 				if (timer === 0) {
 				  clearInterval(countdownInterval);
 					return resolve();
@@ -194,13 +165,10 @@ function handleSelectPodRacer(target) {
 	// add class selected to current target
 	target.classList.add('selected')
 
-	// TODO - save the selected racer to the store
 	store = { ...store, player_id: parseInt(target.id)};
-	//console.log(store);
 }
 
 function handleSelectTrack(target) {
-	//console.log("selected a track", target.id)
 
 	// remove class selected from all track options
 	const selected = document.querySelector('#tracks .selected')
@@ -211,15 +179,11 @@ function handleSelectTrack(target) {
 	// add class selected to current target
 	target.classList.add('selected')
 
-	// TODO - save the selected track id to the store
 	store = { ...store, track_id: parseInt(target.id)};
-	//console.log('console.log from handleSelectTrack', store);
 }
 
 
 function handleAccelerate() {
-	//console.log("accelerate button clicked")
-	// TODO - Invoke the API call to accelerate
 	accelerate(store.race_id);
 }
 
@@ -372,8 +336,6 @@ function defaultFetchOpts() {
 	}
 }
 
-// TODO - Make a fetch call (with error handling!) to each of the following API endpoints
-
 async function getTracks() {
 	// GET request to `${SERVER}/api/tracks`
 	return fetch(`${SERVER}/api/tracks`, {
@@ -382,7 +344,6 @@ async function getTracks() {
 		dataType: 'jsonp',
 	})
 	.then((response) => {
-		//console.log(response);
 		return response.json()
 	})
 	.catch(err => console.log("An error occured while fetching tracks data: ", err))
@@ -396,7 +357,6 @@ async function getRacers() {
 		dataType: 'jsonp',
 	})
 	.then((response) => {
-		//console.log(response);
 		return response.json()
 	})
 	.catch(err => console.log("An error occured while fetching cars data: ", err))
@@ -425,7 +385,6 @@ function getRace(id) {
 		dataType: 'jsonp',
 	})
 	.then((response) => {
-		//console.log(response);
 		return response.json()
 	})
 	.catch(err => console.log("An error occured while fetching race data: ", err))
@@ -441,8 +400,6 @@ function startRace(id) {
 
 function accelerate(id) {
 	// POST request to `${SERVER}/api/races/${id}/accelerate`
-	// options parameter provided as defaultFetchOpts
-	// no body or datatype needed for this request
 	return fetch(`${SERVER}/api/races/${id}/accelerate`, {
 		method: 'POST',
 		...defaultFetchOpts(),
